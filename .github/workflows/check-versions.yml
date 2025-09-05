@@ -1,0 +1,54 @@
+name: Check for Updates
+
+on:
+  schedule:
+    # Run every 12 hours
+    - cron: '0 */12 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Configure git
+      run: |
+        git config --global user.name "GitHub Actions Bot"
+        git config --global user.email "actions@github.com"
+    
+    - name: Check for new commits
+      id: check
+      run: |
+        chmod +x check_versions.sh
+        
+        echo "🔍 Checking for new php-ext-zstd commits..."
+        
+        # Run check and capture exit code
+        if ./check_versions.sh --update; then
+          echo "✅ No new commits found"
+          echo "has_updates=false" >> $GITHUB_OUTPUT
+        else
+          echo "📦 New commits detected and versions.json updated"
+          echo "has_updates=true" >> $GITHUB_OUTPUT
+        fi
+    
+    - name: Display status
+      run: |
+        if [ "${{ steps.check.outputs.has_updates }}" == "true" ]; then
+          echo "✅ Version file updated with new commits"
+          echo "🚀 COPR will automatically rebuild with the latest changes"
+        else
+          echo "ℹ️ No updates needed - using latest commit"
+        fi
+        
+        echo ""
+        echo "Current versions:"
+        cat versions.json
