@@ -1,0 +1,16 @@
+*.src.rpm
+*.rpm
+*.tar.gz
+*.tgz
+*.spec
+*.xml
+package.xml
+.copr/*.src.rpm
+.copr/*.rpm
+.copr/*.tar.gz
+.copr/*.tgz
+.copr/*.spec
+.copr/*.xml
+.copr/package.xml
+.copr/php-ext-zstd-master/
+.copr/zstd-*/
