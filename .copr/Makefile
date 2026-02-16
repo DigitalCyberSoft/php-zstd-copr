@@ -35,7 +35,7 @@ srpm:
 	# Clone php-ext-zstd from GitHub
 	@echo "=== Cloning php-ext-zstd from GitHub ==="; \
 	rm -rf php-ext-zstd-master; \
-	git clone --depth=50 https://github.com/kjdev/php-ext-zstd.git php-ext-zstd-master || exit 1; \
+	git clone --depth=50 --recurse-submodules https://github.com/kjdev/php-ext-zstd.git php-ext-zstd-master || exit 1; \
 	\
 	echo "=== Getting php-ext-zstd version info ==="; \
 	cd php-ext-zstd-master && \
@@ -82,51 +82,8 @@ srpm:
 	echo "=== Creating php-ext-zstd tarball ==="; \
 	tar czf zstd-$$VERSION.tar.gz -C . php-ext-zstd-master --transform "s/^php-ext-zstd-master/zstd-$$VERSION/" || exit 1; \
 	\
-	echo "=== Creating package.xml ==="; \
-	( \
-	echo '<?xml version="1.0" encoding="UTF-8"?>'; \
-	echo '<package packagerversion="1.10.13" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0">'; \
-	echo " <name>zstd</name>"; \
-	echo " <channel>pecl.php.net</channel>"; \
-	echo " <summary>Zstandard extension</summary>"; \
-	echo " <description>PHP extension for compression and decompression with Zstandard library</description>"; \
-	echo " <lead>"; \
-	echo "  <name>Kamijo</name>"; \
-	echo "  <user>kjdev</user>"; \
-	echo "  <email>kamijo@example.com</email>"; \
-	echo "  <active>yes</active>"; \
-	echo " </lead>"; \
-	echo " <date>$$(date +%Y-%m-%d)</date>"; \
-	echo " <version>"; \
-	echo "  <release>$$VERSION</release>"; \
-	echo "  <api>$$VERSION</api>"; \
-	echo " </version>"; \
-	echo " <stability>"; \
-	echo "  <release>stable</release>"; \
-	echo "  <api>stable</api>"; \
-	echo " </stability>"; \
-	echo " <license uri=\"https://opensource.org/licenses/MIT\">MIT</license>"; \
-	echo " <notes>Built from git commit $$SHORTCOMMIT</notes>"; \
-	echo " <contents>"; \
-	echo "  <dir name=\"/\">"; \
-	echo "   <file name=\"LICENSE\" role=\"doc\" />"; \
-	echo "   <file name=\"README.md\" role=\"doc\" />"; \
-	echo "  </dir>"; \
-	echo " </contents>"; \
-	echo " <dependencies>"; \
-	echo "  <required>"; \
-	echo "   <php>"; \
-	echo "    <min>7.0.0</min>"; \
-	echo "   </php>"; \
-	echo "   <pearinstaller>"; \
-	echo "    <min>1.10.0</min>"; \
-	echo "   </pearinstaller>"; \
-	echo "  </required>"; \
-	echo " </dependencies>"; \
-	echo " <providesextension>zstd</providesextension>"; \
-	echo " <extsrcrelease />"; \
-	echo "</package>"; \
-	) > package.xml || exit 1; \
+	echo "=== Copying upstream package.xml ==="; \
+	cp php-ext-zstd-master/package.xml package.xml || exit 1; \
 	\
 	echo "=== Generating spec file ==="; \
 	( \
@@ -185,6 +142,7 @@ srpm:
 	echo ''; \
 	echo '%prep'; \
 	echo '%setup -qc'; \
+	echo 'cp %{SOURCE1} .'; \
 	echo ''; \
 	echo '%{?_licensedir:sed -e '"'"'/LICENSE/s/role=\"doc\"/role=\"src\"/'"'"' -i package.xml}'; \
 	echo ''; \
@@ -258,11 +216,10 @@ srpm:
 	echo ''; \
 	echo '# Test & Documentation'; \
 	echo 'cd %{sources}'; \
-	echo 'for i in $$(grep '"'"'role=\"test\"'"'"' ../package.xml | sed -e '"'"'s/^.*name=\"//;s/\".*$$//'"'"')'; \
-	echo 'do install -Dpm 644 $$i %{buildroot}%{pecl_testdir}/%{pecl_name}/$$i'; \
-	echo 'done'; \
-	echo 'for i in $$(grep '"'"'role=\"doc\"'"'"' ../package.xml | sed -e '"'"'s/^.*name=\"//;s/\".*$$//'"'"')'; \
-	echo 'do install -Dpm 644 $$i %{buildroot}%{pecl_docdir}/%{pecl_name}/$$i'; \
+	echo 'install -d %{buildroot}%{pecl_testdir}/%{pecl_name}/tests'; \
+	echo 'install -pm 644 tests/*.phpt %{buildroot}%{pecl_testdir}/%{pecl_name}/tests/'; \
+	echo 'for i in LICENSE README.md'; \
+	echo 'do [ -f $$i ] && install -Dpm 644 $$i %{buildroot}%{pecl_docdir}/%{pecl_name}/$$i'; \
 	echo 'done'; \
 	echo ''; \
 	echo '%check'; \
@@ -286,7 +243,7 @@ srpm:
 	echo '%if %{with tests}'; \
 	echo ': Upstream test suite  for NTS extension'; \
 	echo 'TEST_PHP_EXECUTABLE=%{__php} \'; \
-	echo 'TEST_PHP_ARGS=\"-n -d extension=%{buildroot}%{php_extdir}/%{pecl_name}.so\" \'; \
+	echo 'TEST_PHP_ARGS="-n -d extension=%{buildroot}%{php_extdir}/%{pecl_name}.so" \'; \
 	echo '%{__php} -n run-tests.php -q --offline --show-diff'; \
 	echo '%endif'; \
 	echo ''; \
@@ -299,7 +256,7 @@ srpm:
 	echo '%if %{with tests}'; \
 	echo ': Upstream test suite  for ZTS extension'; \
 	echo 'TEST_PHP_EXECUTABLE=%{__ztsphp} \'; \
-	echo 'TEST_PHP_ARGS=\"-n -d extension=%{buildroot}%{php_ztsextdir}/%{pecl_name}.so\" \'; \
+	echo 'TEST_PHP_ARGS="-n -d extension=%{buildroot}%{php_ztsextdir}/%{pecl_name}.so" \'; \
 	echo '%{__ztsphp} -n run-tests.php -q --offline --show-diff'; \
 	echo '%endif'; \
 	echo '%endif'; \
