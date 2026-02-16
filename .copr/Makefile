@@ -100,7 +100,7 @@ srpm:
 	echo 'Summary:       Zstandard extension'; \
 	echo 'Name:          php-%{pecl_name}'; \
 	echo "Version:       $$VERSION"; \
-	echo "Release:       $$RELEASE_NUM.git$$SHORTCOMMIT%{?dist}%{!?nophptag:%(%{__php} -r 'echo \".\".PHP_MAJOR_VERSION.\".\".PHP_MINOR_VERSION;')}"; \
+	echo "Release:       $$RELEASE_NUM.git$$SHORTCOMMIT%{?dist}"; \
 	echo 'License:       MIT AND BSD-3-Clause'; \
 	echo 'URL:           https://github.com/kjdev/php-ext-zstd'; \
 	echo 'Source0:       zstd-%{version}.tar.gz'; \
@@ -130,7 +130,7 @@ srpm:
 	echo '%description'; \
 	echo 'PHP extension for compression and decompression with Zstandard library.'; \
 	echo ''; \
-	echo 'Package built for PHP %(%{__php} -r '"'"'echo PHP_MAJOR_VERSION.\".\".PHP_MINOR_VERSION;'"'"')'; \
+	echo 'Package built for PHP %{php_version}'; \
 	echo ''; \
 	echo '%package devel'; \
 	echo 'Summary:       %{name} developer files (header)'; \
