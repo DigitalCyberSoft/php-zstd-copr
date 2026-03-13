@@ -18,7 +18,7 @@ This repository contains the COPR build configuration to automatically build RPM
 
 The built packages are available in COPR at:
 ```
-https://copr.fedorainfracloud.org/coprs/YOUR_USERNAME/php-zstd/
+https://copr.fedorainfracloud.org/coprs/reversejames/php-zstd/
 ```
 
 ### Installation
@@ -27,7 +27,7 @@ To use packages from this COPR repository:
 
 ```bash
 # Enable the COPR repository
-sudo dnf copr enable YOUR_USERNAME/php-zstd
+sudo dnf copr enable reversejames/php-zstd
 
 # Install php-zstd
 sudo dnf install php-zstd
