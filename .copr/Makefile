@@ -100,7 +100,7 @@ srpm:
 	echo 'Summary:       Zstandard extension'; \
 	echo 'Name:          php-%{pecl_name}'; \
 	echo "Version:       $$VERSION"; \
-	echo "Release:       $$RELEASE_NUM.git$$SHORTCOMMIT%{?dist}"; \
+	echo "Release:       $$RELEASE_NUM.git$$SHORTCOMMIT.php%{php_major_version}%{php_minor_version}%{?dist}"; \
 	echo 'License:       MIT AND BSD-3-Clause'; \
 	echo 'URL:           https://github.com/kjdev/php-ext-zstd'; \
 	echo 'Source0:       zstd-%{version}.tar.gz'; \
