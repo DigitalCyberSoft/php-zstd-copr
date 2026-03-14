@@ -4,6 +4,8 @@
 # COPR provides outdir, set default for local testing
 outdir ?= .
 
+RELEASE := $(shell cat $(CURDIR)/release 2>/dev/null || echo 1)
+
 # Default target for COPR
 srpm:
 	@echo "=== Starting php-zstd SRPM build from GitHub master ==="
@@ -94,7 +96,7 @@ srpm:
 	echo 'Summary:       Zstandard extension'; \
 	echo 'Name:          php-%{pecl_name}'; \
 	echo "Version:       $$VERSION"; \
-	echo "Release:       $${RELEASE_NUM}.git$${SHORTCOMMIT}%{?dist}"; \
+	echo "Release:       $(RELEASE).$${RELEASE_NUM}.git$${SHORTCOMMIT}%{?dist}"; \
 	echo 'License:       MIT AND BSD-3-Clause'; \
 	echo 'URL:           https://github.com/kjdev/php-ext-zstd'; \
 	echo 'Source0:       zstd-%{version}.tar.gz'; \
