@@ -16,7 +16,7 @@ srpm:
 		echo "=== Git not found, installing it ==="; \
 		if command -v dnf >/dev/null 2>&1; then \
 			echo "Using DNF to install git..."; \
-			dnf install -y git php-devel || (echo "ERROR: Failed to install git with dnf" && exit 1); \
+			dnf install -y git || (echo "ERROR: Failed to install git with dnf" && exit 1); \
 		elif command -v yum >/dev/null 2>&1; then \
 			echo "Using YUM to install git..."; \
 			yum install -y git || (echo "ERROR: Failed to install git with yum" && exit 1); \
