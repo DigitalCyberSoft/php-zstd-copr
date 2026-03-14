@@ -51,10 +51,7 @@ srpm:
 	cd ..; \
 	\
 	echo "=== Getting PHP version ==="; \
-	PHP_VER=$$(rpm -q --qf '%{version}\n' php-devel 2>/dev/null | head -1 || echo "8.3.0"); \
-	PHP_MAJOR=$$(echo $$PHP_VER | cut -d. -f1); \
-	PHP_MINOR=$$(echo $$PHP_VER | cut -d. -f2); \
-	echo "PHP Version: $$PHP_VER ($$PHP_MAJOR.$$PHP_MINOR)"; \
+	PHP_VER=$$(php-config --version); echo "  PHP version: $$PHP_VER"; \
 	\
 	echo "=== Determining release number ==="; \
 	FULL_VERSION="$$VERSION"_"$$SHORTCOMMIT"; \
@@ -100,7 +97,7 @@ srpm:
 	echo 'Summary:       Zstandard extension'; \
 	echo 'Name:          php-%{pecl_name}'; \
 	echo "Version:       $$VERSION"; \
-	echo "Release:       $$RELEASE_NUM.git$$SHORTCOMMIT.php%{php_major_version}%{php_minor_version}%{?dist}"; \
+	echo "Release:       $${RELEASE_NUM}.git$${SHORTCOMMIT}.php$${PHP_VER}%{?dist}"; \
 	echo 'License:       MIT AND BSD-3-Clause'; \
 	echo 'URL:           https://github.com/kjdev/php-ext-zstd'; \
 	echo 'Source0:       zstd-%{version}.tar.gz'; \
