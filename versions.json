@@ -1,13 +1,13 @@
 {
   "php-zstd": {
     "version": "0.15.2",
-    "commit": "5942b5d9d2b40cd0b2b078965709e8b94f420a77",
-    "short_commit": "5942b5d",
+    "commit": "9705ad1c4965013d04627a7f10dc721da79f4d5b",
+    "short_commit": "9705ad1",
     "commit_date": "",
     "commit_message": "",
     "repository": "https://github.com/kjdev/php-ext-zstd",
     "pecl_url": "https://pecl.php.net/package/zstd",
-    "last_checked": "2026-05-27T02:28:59Z"
+    "last_checked": "2026-06-03T02:45:23Z"
   },
-  "last_update": "2026-05-27T02:28:59Z"
+  "last_update": "2026-06-03T02:45:23Z"
 }
