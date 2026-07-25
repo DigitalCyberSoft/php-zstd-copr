@@ -51,28 +51,28 @@ get_timestamp() {
     date -u +"%Y-%m-%dT%H:%M:%SZ"
 }
 
-# Function to get latest commit from GitHub
+# Function to get latest commit from GitHub. Sets COMMIT, COMMIT_DATE and
+# COMMIT_MESSAGE; call it directly (not via $()) so the globals survive.
 get_latest_commit() {
     local api_url="https://api.github.com/repos/kjdev/php-ext-zstd/commits/master"
     local commit_info=""
-    
-    # Try to get commit info from GitHub API
-    if command -v curl >/dev/null 2>&1; then
-        commit_info=$(curl -s "$api_url")
+    local auth=()
+    if [ -n "${GITHUB_TOKEN:-}" ]; then
+        auth=(-H "Authorization: Bearer ${GITHUB_TOKEN}")
     fi
-    
+
+    commit_info=$(curl -sf "${auth[@]}" --connect-timeout 15 --max-time 60 --retry 3 --retry-all-errors "$api_url" 2>/dev/null) || true
+
     if [ -n "$commit_info" ] && [ "$commit_info" != "null" ]; then
         COMMIT=$(echo "$commit_info" | grep '"sha"' | head -1 | sed 's/.*"sha": *"//;s/".*//')
         COMMIT_DATE=$(echo "$commit_info" | grep '"date"' | head -1 | sed 's/.*"date": *"//;s/".*//')
         COMMIT_MESSAGE=$(echo "$commit_info" | grep '"message"' | head -1 | sed 's/.*"message": *"//;s/".*//;s/\\n.*//;s/\\"/"/g')
-        
+
         if [ -n "$COMMIT" ]; then
-            echo "$COMMIT"
             return 0
         fi
     fi
-    
-    echo "unknown"
+
     return 1
 }
 
@@ -80,16 +80,23 @@ get_latest_commit() {
 get_version() {
     # Clone temporarily to get version
     local tmpdir=$(mktemp -d)
-    cd "$tmpdir"
-    git clone --depth=1 https://github.com/kjdev/php-ext-zstd.git >/dev/null 2>&1
-    cd php-ext-zstd
-    VERSION=$(sed -n '/#define PHP_ZSTD_VERSION/{s/.* "//;s/".*$//;p}' php_zstd.h)
-    if [ -z "$VERSION" ]; then
-        VERSION=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//' || echo "0.13.3")
+    local version=""
+    if git clone --depth=1 https://github.com/kjdev/php-ext-zstd.git "$tmpdir/php-ext-zstd" >/dev/null 2>&1; then
+        version=$(sed -n '/#define PHP_ZSTD_VERSION/{s/.* "//;s/".*$//;p}' "$tmpdir/php-ext-zstd/php_zstd.h" 2>/dev/null)
+        if [ -z "$version" ]; then
+            version=$(cd "$tmpdir/php-ext-zstd" && git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//')
+        fi
     fi
-    cd "$SCRIPT_DIR"
     rm -rf "$tmpdir"
-    echo "$VERSION"
+
+    # Hard-fail when the version cannot be determined. A hardcoded fallback
+    # here would commit a fabricated version.
+    if [ -z "$version" ]; then
+        echo "ERROR: could not determine php-ext-zstd version from upstream" >&2
+        return 1
+    fi
+
+    echo "$version"
 }
 
 # Function to read current versions from JSON
@@ -178,14 +185,14 @@ echo
 # Get current versions from file
 read_current_versions
 
-# Get latest commit
+# Get latest commit. Direct call so COMMIT/COMMIT_DATE/COMMIT_MESSAGE
+# survive; a $() subshell call loses the date and message.
 echo "Checking latest php-ext-zstd commit..."
-NEW_COMMIT=$(get_latest_commit)
-
-if [ "$NEW_COMMIT" = "unknown" ]; then
-    echo "ERROR: Failed to get latest commit from GitHub"
+if ! get_latest_commit; then
+    echo "ERROR: Failed to get latest commit from GitHub" >&2
     exit 1
 fi
+NEW_COMMIT="$COMMIT"
 
 echo "Getting version information..."
 NEW_VERSION=$(get_version)
@@ -233,7 +240,12 @@ if [ $VERSIONS_CHANGED -eq 1 ]; then
         echo "Run with --update to apply changes"
     fi
     
-    exit 1  # Exit with error code to indicate changes available
+    # update mode: a successful apply is success; exit 1 only signals
+    # "changes available" to check-only callers (manual use)
+    if [ "$MODE" = "update" ] && [ $DRY_RUN -eq 0 ]; then
+        exit 0
+    fi
+    exit 1
 else
     echo "=== No changes detected ==="
     echo "  Current commit: ${CURRENT_COMMIT:0:7}"
