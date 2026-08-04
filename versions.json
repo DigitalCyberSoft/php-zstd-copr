@@ -1,13 +1,13 @@
 {
   "php-zstd": {
     "version": "0.17.0",
-    "commit": "3ef892efb3b34530f6f797fc8f78c71a56c32743",
-    "short_commit": "3ef892e",
-    "commit_date": "2026-07-29T00:27:43Z",
-    "commit_message": "Merge pull request #102 from pavetheway91/fix-warnings",
+    "commit": "c5505d89e5d146dfea69e4c7d572a5e9f171888a",
+    "short_commit": "c5505d8",
+    "commit_date": "2026-08-04T00:34:17Z",
+    "commit_message": "Merge pull request #105 from pavetheway91/phpinfo-improvements",
     "repository": "https://github.com/kjdev/php-ext-zstd",
     "pecl_url": "https://pecl.php.net/package/zstd",
-    "last_checked": "2026-07-29T01:29:32Z"
+    "last_checked": "2026-08-04T01:24:52Z"
   },
-  "last_update": "2026-07-29T01:29:32Z"
+  "last_update": "2026-08-04T01:24:52Z"
 }
