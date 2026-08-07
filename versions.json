@@ -1,13 +1,13 @@
 {
   "php-zstd": {
     "version": "0.17.0",
-    "commit": "c5505d89e5d146dfea69e4c7d572a5e9f171888a",
-    "short_commit": "c5505d8",
-    "commit_date": "2026-08-04T00:34:17Z",
-    "commit_message": "Merge pull request #105 from pavetheway91/phpinfo-improvements",
+    "commit": "8b730b2ab5839a1903be810fa8323893cac14511",
+    "short_commit": "8b730b2",
+    "commit_date": "2026-08-07T01:33:44Z",
+    "commit_message": "Merge pull request #104 from pavetheway91/built-in-mime-exclusions",
     "repository": "https://github.com/kjdev/php-ext-zstd",
     "pecl_url": "https://pecl.php.net/package/zstd",
-    "last_checked": "2026-08-04T01:24:52Z"
+    "last_checked": "2026-08-07T02:05:12Z"
   },
-  "last_update": "2026-08-04T01:24:52Z"
+  "last_update": "2026-08-07T02:05:12Z"
 }
