@@ -1,13 +1,13 @@
 {
   "php-zstd": {
     "version": "0.17.0",
-    "commit": "8b730b2ab5839a1903be810fa8323893cac14511",
-    "short_commit": "8b730b2",
-    "commit_date": "2026-08-07T01:33:44Z",
-    "commit_message": "Merge pull request #104 from pavetheway91/built-in-mime-exclusions",
+    "commit": "4b430dfd995f7758458411513f0445acaf5a1ff9",
+    "short_commit": "4b430df",
+    "commit_date": "2026-08-12T01:28:44Z",
+    "commit_message": "test: add wildcard match test for built-in MIME exclusion list",
     "repository": "https://github.com/kjdev/php-ext-zstd",
     "pecl_url": "https://pecl.php.net/package/zstd",
-    "last_checked": "2026-08-07T02:05:12Z"
+    "last_checked": "2026-08-12T12:42:22Z"
   },
-  "last_update": "2026-08-07T02:05:12Z"
+  "last_update": "2026-08-12T12:42:22Z"
 }
