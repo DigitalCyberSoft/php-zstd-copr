@@ -1,13 +1,13 @@
 {
   "php-zstd": {
     "version": "0.17.0",
-    "commit": "4b430dfd995f7758458411513f0445acaf5a1ff9",
-    "short_commit": "4b430df",
-    "commit_date": "2026-08-12T01:28:44Z",
-    "commit_message": "test: add wildcard match test for built-in MIME exclusion list",
+    "commit": "b2b4ce6166cc39231a71f8bba3db2e14cebe5f45",
+    "short_commit": "b2b4ce6",
+    "commit_date": "2026-08-12T23:33:37Z",
+    "commit_message": "docs: document negation tokens for exclude_types",
     "repository": "https://github.com/kjdev/php-ext-zstd",
     "pecl_url": "https://pecl.php.net/package/zstd",
-    "last_checked": "2026-08-12T12:42:22Z"
+    "last_checked": "2026-08-13T12:43:31Z"
   },
-  "last_update": "2026-08-12T12:42:22Z"
+  "last_update": "2026-08-13T12:43:31Z"
 }
