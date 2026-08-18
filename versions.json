@@ -1,13 +1,13 @@
 {
   "php-zstd": {
     "version": "0.18.0",
-    "commit": "c2593a4ce2457b23e7fa7f81ddf0dd9bbdd89b47",
-    "short_commit": "c2593a4",
-    "commit_date": "2026-08-13T03:01:52Z",
-    "commit_message": "upgrade: version to 0.18.0",
+    "commit": "4d73494bd2b46533defe20eddf3567f0ec2fedef",
+    "short_commit": "4d73494",
+    "commit_date": "2026-08-18T05:38:51Z",
+    "commit_message": "Merge pull request #109 from remicollet/issue-8.6.0beta1",
     "repository": "https://github.com/kjdev/php-ext-zstd",
     "pecl_url": "https://pecl.php.net/package/zstd",
-    "last_checked": "2026-08-14T01:02:25Z"
+    "last_checked": "2026-08-18T12:22:18Z"
   },
-  "last_update": "2026-08-14T01:02:25Z"
+  "last_update": "2026-08-18T12:22:18Z"
 }
