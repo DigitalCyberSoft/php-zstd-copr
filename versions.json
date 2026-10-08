@@ -1,13 +1,13 @@
 {
   "php-zstd": {
     "version": "0.18.0",
-    "commit": "4d73494bd2b46533defe20eddf3567f0ec2fedef",
-    "short_commit": "4d73494",
-    "commit_date": "2026-08-18T05:38:51Z",
-    "commit_message": "Merge pull request #109 from remicollet/issue-8.6.0beta1",
+    "commit": "2dbc8f408c5ea191351dd6a1c226ef2d3eddd368",
+    "short_commit": "2dbc8f4",
+    "commit_date": "2026-10-08T02:41:58Z",
+    "commit_message": "Merge pull request #110 from nicolas-grekas/fix-stream-close-return-value",
     "repository": "https://github.com/kjdev/php-ext-zstd",
     "pecl_url": "https://pecl.php.net/package/zstd",
-    "last_checked": "2026-08-18T12:22:18Z"
+    "last_checked": "2026-10-08T03:30:13Z"
   },
-  "last_update": "2026-08-18T12:22:18Z"
+  "last_update": "2026-10-08T03:30:13Z"
 }
