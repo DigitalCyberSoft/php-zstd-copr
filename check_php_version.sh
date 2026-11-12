@@ -150,12 +150,17 @@ check_ext_version() {
     if [ -f "$EXT_VERSION_FILE" ]; then saved_ver=$(cat "$EXT_VERSION_FILE" | tr -d '[:space:]'); fi
     echo "  Extension version: ${new_ver} [saved: ${saved_ver:-none}]"
     if [ "$new_ver" != "$saved_ver" ] && [ -n "$saved_ver" ]; then
-        echo "  Extension UPDATED: ${saved_ver} -> ${new_ver} (resetting release to 1)"
+        echo "  Extension UPDATED: ${saved_ver} -> ${new_ver}"
+        # The release counter is never reset here. The RPM Version comes
+        # from the header on upstream master, which moves before the GitHub
+        # release is published, so a reset made the next build sort below
+        # the one already shipped (php-pecl-ssh2 1.6.0-11 -> 1.6.0-1,
+        # 2026-11-12; this repo builds from master the same way).
         # Persist only when applying: writing during --check-only made the
         # later --update invocation see no delta, so a standalone extension
         # bump never committed on its own.
         if [ "$MODE" = "update" ] && [ $DRY_RUN -eq 0 ]; then
-            echo "1" > "$RELEASE_FILE"; echo "$new_ver" > "$EXT_VERSION_FILE"
+            echo "$new_ver" > "$EXT_VERSION_FILE"
         fi
         return 0
     fi
@@ -216,7 +221,7 @@ echo "Checking extension version..."
 if check_ext_version; then
     EXT_VERSION_CHANGED=1
     VERSIONS_CHANGED=1
-    CHANGE_SUMMARY="${CHANGE_SUMMARY}  Extension version updated (release reset to 1)\n"
+    CHANGE_SUMMARY="${CHANGE_SUMMARY}  Extension version updated\n"
 fi
 echo
 
@@ -269,12 +274,8 @@ if [ $VERSIONS_CHANGED -eq 1 ]; then
             write_versions
             echo "php_version.json updated"
 
-            if [ $EXT_VERSION_CHANGED -eq 0 ]; then
-                echo "Bumping release counter..."
-                bump_release
-            else
-                echo "Release already reset by extension version change"
-            fi
+            echo "Bumping release counter..."
+            bump_release
 
             echo "Committing and pushing..."
             commit_and_push "$(echo -e "$CHANGE_SUMMARY")"
