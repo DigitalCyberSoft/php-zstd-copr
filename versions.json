@@ -1,13 +1,13 @@
 {
   "php-zstd": {
     "version": "0.18.0",
-    "commit": "2dbc8f408c5ea191351dd6a1c226ef2d3eddd368",
-    "short_commit": "2dbc8f4",
-    "commit_date": "2026-10-08T02:41:58Z",
-    "commit_message": "Merge pull request #110 from nicolas-grekas/fix-stream-close-return-value",
+    "commit": "88bbb436b0b8130f771043dbcb05e6fe62e0f654",
+    "short_commit": "88bbb43",
+    "commit_date": "2026-11-18T02:16:24Z",
+    "commit_message": "test: add APCu serializer large payload test",
     "repository": "https://github.com/kjdev/php-ext-zstd",
     "pecl_url": "https://pecl.php.net/package/zstd",
-    "last_checked": "2026-10-08T03:30:13Z"
+    "last_checked": "2026-11-18T05:03:30Z"
   },
-  "last_update": "2026-10-08T03:30:13Z"
+  "last_update": "2026-11-18T05:03:30Z"
 }
