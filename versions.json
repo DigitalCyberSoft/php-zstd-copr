@@ -1,13 +1,13 @@
 {
   "php-zstd": {
-    "version": "0.18.0",
-    "commit": "88bbb436b0b8130f771043dbcb05e6fe62e0f654",
-    "short_commit": "88bbb43",
-    "commit_date": "2026-11-18T02:16:24Z",
-    "commit_message": "test: add APCu serializer large payload test",
+    "version": "0.19.0",
+    "commit": "81e257931e7938d1d9e40e6ea3e51200bcb921dc",
+    "short_commit": "81e2579",
+    "commit_date": "2026-11-25T03:41:04Z",
+    "commit_message": "upgrade: version to 0.19.0",
     "repository": "https://github.com/kjdev/php-ext-zstd",
     "pecl_url": "https://pecl.php.net/package/zstd",
-    "last_checked": "2026-11-18T05:03:30Z"
+    "last_checked": "2026-11-25T06:00:20Z"
   },
-  "last_update": "2026-11-18T05:03:30Z"
+  "last_update": "2026-11-25T06:00:20Z"
 }
